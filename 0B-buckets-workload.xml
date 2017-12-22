@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<workload name="0B Bucket Scaling" description="Metadata (0 byte objects) sample benchmark for s3 with bucket scaling">
+
+  <storage type="s3" config="accesskey=ACCESSKEY;secretkey=SECRETKEY;endpoint=http://S3URL/;path_style_access=true" />
+  <workflow>
+
+    <workstage name="init">
+      <work type="init" workers="1" config="cprefix=testbucket;containers=r(1,100)" />
+    </workstage>
+
+    <workstage name="prepare">
+      <work type="prepare" workers="512" config="cprefix=testbucket;containers=r(1,100);objects=r(1,10240);sizes=c(0)KB;" />
+    </workstage>
+
+<!-- LIST -->
+
+    <workstage name="list_256_1bucket">
+      <work name="list_256_1bucket" workers="256"  runtime="600">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);" id="list_256_1bucket" />
+      </work>
+    </workstage>
+    <workstage name="list_256_10bucket">
+      <work name="list_256_10bucket" workers="256"  runtime="600">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,10);objects=u(1,10240);" id="list_256_10bucket" />
+      </work>
+    </workstage>
+    <workstage name="list_256_20bucket">
+      <work name="list_256_20bucket" workers="256"  runtime="600">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,20);objects=u(1,10240);" id="list_256_20bucket" />
+      </work>
+    </workstage>
+    <workstage name="list_256_40bucket">
+      <work name="list_256_40bucket" workers="256"  runtime="600">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,40);objects=u(1,10240);" id="list_256_40bucket" />
+      </work>
+    </workstage>
+    <workstage name="list_256_60bucket">
+      <work name="list_256_60bucket" workers="256"  runtime="600">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,60);objects=u(1,10240);" id="list_256_60bucket" />
+      </work>
+    </workstage>
+    <workstage name="list_256_80bucket">
+      <work name="list_256_80bucket" workers="256"  runtime="600">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,80);objects=u(1,10240);" id="list_256_80bucket" />
+      </work>
+    </workstage>
+    <workstage name="list_256_100bucket">
+      <work name="list_256_100bucket" workers="256"  runtime="600">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,100);objects=u(1,10240);" id="list_256_100bucket" />
+      </work>
+    </workstage>
+
+<!-- READ -->
+
+    <workstage name="read_256_1bucket">
+      <work name="read_256_1bucket" workers="256" runtime="600">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="read_256_1bucket"  />
+      </work>
+    </workstage>
+    <workstage name="read_256_10bucket">
+      <work name="read_256_10bucket" workers="256" runtime="600">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,10);objects=u(1,10240);hashCheck=true" id="read_256_10bucket"  />
+      </work>
+    </workstage>
+    <workstage name="read_256_20bucket">
+      <work name="read_256_20bucket" workers="256" runtime="600">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,20);objects=u(1,10240);hashCheck=true" id="read_256_20bucket"  />
+      </work>
+    </workstage>
+    <workstage name="read_256_40bucket">
+      <work name="read_256_40bucket" workers="256" runtime="600">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,40);objects=u(1,10240);hashCheck=true" id="read_256_40bucket"  />
+      </work>
+    </workstage>
+    <workstage name="read_256_60bucket">
+      <work name="read_256_60bucket" workers="256" runtime="600">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,60);objects=u(1,10240);hashCheck=true" id="read_256_60bucket"  />
+      </work>
+    </workstage>
+    <workstage name="read_256_80bucket">
+      <work name="read_256_80bucket" workers="256" runtime="600">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,80);objects=u(1,10240);hashCheck=true" id="read_256_80bucket"  />
+      </work>
+    </workstage>
+    <workstage name="read_256_100bucket">
+      <work name="read_256_100bucket" workers="256" runtime="600">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,100);objects=u(1,10240);hashCheck=true" id="read_256_100bucket"  />
+      </work>
+    </workstage>
+
+<!-- WRITE -->
+
+    <workstage name="write_256_1bucket">
+      <work name="write_256_1bucket" workers="256"  runtime="600">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_256_1bucket" />
+      </work>
+    </workstage>
+    <workstage name="write_256_10bucket">
+      <work name="write_256_10bucket" workers="256"  runtime="600">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,10);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_256_10bucket" />
+      </work>
+    </workstage>
+    <workstage name="write_256_20bucket">
+      <work name="write_256_20bucket" workers="256"  runtime="600">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,20);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_256_20bucket" />
+      </work>
+    </workstage>
+    <workstage name="write_256_40bucket">
+      <work name="write_256_40bucket" workers="256"  runtime="600">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,40);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_256_40bucket" />
+      </work>
+    </workstage>
+    <workstage name="write_256_60bucket">
+      <work name="write_256_60bucket" workers="256"  runtime="600">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,60);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_256_60bucket" />
+      </work>
+    </workstage>
+    <workstage name="write_256_80bucket">
+      <work name="write_256_80bucket" workers="256"  runtime="600">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,80);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_256_80bucket" />
+      </work>
+    </workstage>
+    <workstage name="write_256_100bucket">
+      <work name="write_256_100bucket" workers="256"  runtime="600">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,100);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_256_100bucket" />
+      </work>
+    </workstage>
+
+<!-- MIXED -->
+
+    <workstage name="mixed_256_1bucket">
+      <work name="mix_256_1bucket" workers="256" runtime="600">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="mixed_read_256_1bucket"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_256_1bucket" />
+      </work>
+    </workstage>
+    <workstage name="mixed_256_10bucket">
+      <work name="mix_256_10bucket" workers="256" runtime="600">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,10);objects=u(1,10240);hashCheck=true" id="mixed_read_256_10bucket"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,10);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_256_10bucket" />
+      </work>
+    </workstage>
+    <workstage name="mixed_256_20bucket">
+      <work name="mix_256_20bucket" workers="256" runtime="600">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,20);objects=u(1,10240);hashCheck=true" id="mixed_read_256_20bucket"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,20);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_256_20bucket" />
+      </work>
+    </workstage>
+    <workstage name="mixed_256_40bucket">
+      <work name="mix_256_40bucket" workers="256" runtime="600">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,40);objects=u(1,10240);hashCheck=true" id="mixed_read_256_40bucket"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,40);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_256_40bucket" />
+      </work>
+    </workstage>
+    <workstage name="mixed_256_60bucket">
+      <work name="mix_256_60bucket" workers="256" runtime="600">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,60);objects=u(1,10240);hashCheck=true" id="mixed_read_256_60bucket"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,60);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_256_60bucket" />
+      </work>
+    </workstage>
+    <workstage name="mixed_256_80bucket">
+      <work name="mix_256_80bucket" workers="256" runtime="600">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,80);objects=u(1,10240);hashCheck=true" id="mixed_read_256_80bucket"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,80);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_256_80bucket" />
+      </work>
+    </workstage>
+    <workstage name="mixed_256_100bucket">
+      <work name="mix_256_100bucket" workers="256" runtime="600">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,100);objects=u(1,10240);hashCheck=true" id="mixed_read_256_100bucket"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,100);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_256_100bucket" />
+      </work>
+    </workstage>
+
+
+    <workstage name="cleanup">
+      <work type="cleanup" workers="512" config="cprefix=testbucket;containers=r(1,100);objects=r(1,25600)" />
+    </workstage>
+
+    <workstage name="dispose">
+      <work type="dispose" workers="1" config="cprefix=testbucket;containers=r(1,100)" />
+    </workstage>
+
+  </workflow>
+
+</workload>

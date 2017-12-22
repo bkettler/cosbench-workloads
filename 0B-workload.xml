@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<workload name="0B" description="Metadata (0 byte objects) sample benchmark for s3">
+
+  <storage type="s3" config="accesskey=ACCESSKEY;secretkey=SECRETKEY;endpoint=http://S3URL/;path_style_access=true" />
+  <workflow>
+
+    <workstage name="init">
+      <work type="init" workers="1" config="cprefix=testbucket;containers=r(1,1)" />
+    </workstage>
+
+    <workstage name="prepare">
+      <work type="prepare" workers="512" config="cprefix=testbucket;containers=r(1,1);objects=r(1,10240);sizes=c(0)KB;" />
+    </workstage>
+
+       <workstage name="list_1">
+      <work name="list_1" workers="1"  runtime="60">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);" id="list_1" />
+      </work>
+    </workstage>
+       <workstage name="list_2">
+      <work name="list_2" workers="2"  runtime="60">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);" id="list_2" />
+      </work>
+    </workstage>
+       <workstage name="list_4">
+      <work name="list_4" workers="4"  runtime="60">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);" id="list_4" />
+      </work>
+    </workstage>
+       <workstage name="list_8">
+      <work name="list_8" workers="8"  runtime="60">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);" id="list_8" />
+      </work>
+    </workstage>
+       <workstage name="list_16">
+      <work name="list_16" workers="16"  runtime="60">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);" id="list_16" />
+      </work>
+    </workstage>
+       <workstage name="list_32">
+      <work name="list_32" workers="32"  runtime="60">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);" id="list_32" />
+      </work>
+    </workstage>
+       <workstage name="list_64">
+      <work name="list_64" workers="64"  runtime="60">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);" id="list_64" />
+      </work>
+    </workstage>
+       <workstage name="list_128">
+      <work name="list_128" workers="128"  runtime="60">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);" id="list_128" />
+      </work>
+    </workstage>
+       <workstage name="list_256">
+      <work name="list_256" workers="256"  runtime="60">
+        <operation type="list" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);" id="list_256" />
+      </work>
+    </workstage>
+
+       <workstage name="read_1">
+      <work name="read_1" workers="1" runtime="60">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="read_1"  />
+      </work>
+    </workstage>
+       <workstage name="read_2">
+      <work name="read_2" workers="2" runtime="60">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="read_2"  />
+      </work>
+    </workstage>
+       <workstage name="read_4">
+      <work name="read_4" workers="4" runtime="60">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="read_4"  />
+      </work>
+    </workstage>
+       <workstage name="read_8">
+      <work name="read_8" workers="8" runtime="60">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="read_8"  />
+      </work>
+    </workstage>
+       <workstage name="read_16">
+      <work name="read_16" workers="16" runtime="60">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="read_16"  />
+      </work>
+    </workstage>
+       <workstage name="read_32">
+      <work name="read_32" workers="32" runtime="60">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="read_32"  />
+      </work>
+    </workstage>
+       <workstage name="read_64">
+      <work name="read_64" workers="64" runtime="60">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="read_64"  />
+      </work>
+    </workstage>
+       <workstage name="read_128">
+      <work name="read_128" workers="128" runtime="60">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="read_128"  />
+      </work>
+    </workstage>
+       <workstage name="read_256">
+      <work name="read_256" workers="256" runtime="60">
+        <operation type="read" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="read_256"  />
+      </work>
+    </workstage>
+
+       <workstage name="write_1">
+      <work name="write_1" workers="1"  runtime="60">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_1" />
+      </work>
+    </workstage>
+       <workstage name="write_2">
+      <work name="write_2" workers="2"  runtime="60">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_2" />
+      </work>
+    </workstage>
+       <workstage name="write_4">
+      <work name="write_4" workers="4"  runtime="60">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_4" />
+      </work>
+    </workstage>
+       <workstage name="write_8">
+      <work name="write_8" workers="8"  runtime="60">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_8" />
+      </work>
+    </workstage>
+       <workstage name="write_16">
+      <work name="write_16" workers="16"  runtime="60">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_16" />
+      </work>
+    </workstage>
+       <workstage name="write_32">
+      <work name="write_32" workers="32"  runtime="60">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_32" />
+      </work>
+    </workstage>
+       <workstage name="write_64">
+      <work name="write_64" workers="64"  runtime="60">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_64" />
+      </work>
+    </workstage>
+       <workstage name="write_128">
+      <work name="write_128" workers="128"  runtime="60">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_128" />
+      </work>
+    </workstage>
+       <workstage name="write_256">
+      <work name="write_256" workers="256"  runtime="60">
+        <operation type="write" ratio="100" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="write_256" />
+      </work>
+    </workstage>
+
+       <workstage name="mixed_1">
+      <work name="mix_1" workers="1" runtime="60">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="mixed_read_1"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_1" />
+      </work>
+    </workstage>
+       <workstage name="mixed_2">
+      <work name="mix_2" workers="2" runtime="60">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="mixed_read_2"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_2" />
+      </work>
+    </workstage>
+       <workstage name="mixed_4">
+      <work name="mix_4" workers="4" runtime="60">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="mixed_read_4"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_4" />
+      </work>
+    </workstage>
+       <workstage name="mixed_8">
+      <work name="mix_8" workers="8" runtime="60">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="mixed_read_8"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_8" />
+      </work>
+    </workstage>
+       <workstage name="mixed_16">
+      <work name="mix_16" workers="16" runtime="60">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="mixed_read_16"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_16" />
+      </work>
+    </workstage>
+       <workstage name="mixed_32">
+      <work name="mix_32" workers="32" runtime="60">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="mixed_read_32"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_32" />
+      </work>
+    </workstage>
+       <workstage name="mixed_64">
+      <work name="mix_64" workers="64" runtime="60">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="mixed_read_64"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_64" />
+      </work>
+    </workstage>
+       <workstage name="mixed_128">
+      <work name="mix_128" workers="128" runtime="60">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="mixed_read_128"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_128" />
+      </work>
+    </workstage>
+       <workstage name="mixed_256">
+      <work name="mix_256" workers="256" runtime="60">
+        <operation type="read" ratio="20" config="cprefix=testbucket;containers=u(1,1);objects=u(1,10240);hashCheck=true" id="mixed_read_256"  />
+        <operation type="write" ratio="80" config="cprefix=testbucket;containers=u(1,1);objects=u(10241,25600);sizes=c(0)KB;hashCheck=true" id="mixed_write_256" />
+      </work>
+    </workstage>
+
+
+    <workstage name="cleanup">
+      <work type="cleanup" workers="512" config="cprefix=testbucket;containers=r(1,1);objects=r(1,25600)" />
+    </workstage>
+
+    <workstage name="dispose">
+      <work type="dispose" workers="1" config="cprefix=testbucket;containers=r(1,1)" />
+    </workstage>
+
+  </workflow>
+
+</workload>
