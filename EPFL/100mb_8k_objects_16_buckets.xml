@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workload name="100mb" description="100mb S3 Benchmark">
+  <storage type="s3" config="accesskey=ACCESSKEY;secretkey=SECRETKEY;endpoint=http://S3URL/;path_style_access=true" />
+  <workflow>
+    <!-- Init Stages -->
+    <workstage name="init">
+      <work type="init" workers="5" config="cprefix=100mb;containers=r(1,16)" />
+    </workstage>
+
+    <!-- 100% Write -->
+    <workstage name="write">
+      <work name="write" workers="64">
+        <operation type="write" ratio="100" config="cprefix=100mb;containers=u(1,16);objects=s(1,8000);sizes=c(100)MB" />
+      </work>
+    </workstage>
+
+    <!-- 100% Read -->
+    <workstage name="read">
+      <work name="read" workers="64">
+        <operation type="read" ratio="100" config="cprefix=100mb;containers=u(1,16);objects=s(1,8000)" />
+      </work>
+    </workstage>
+
+    <!-- 40/60 Read/Write -->
+    <workstage name="4060rw">
+      <work name="4060rw" workers="64">
+        <operation type="read" ratio="40" config="cprefix=100mb;containers=u(1,16);objects=s(1,3200)" />
+        <operation type="write" ratio="60" config="cprefix=100mb;containers=u(1,16);objects=s(3201,8000);sizes=c(100)MB" />
+      </work>
+    </workstage>
+
+    <!-- Cleanup Stages-->
+    <workstage name="cleanup">
+      <work name="cleanup" type="cleanup" workers="64" config="cprefix=100mb;containers=r(1,16);objects=r(1,8000)" />
+    </workstage>
+    <workstage name="dispose">
+      <work name="dispose" type="dispose" workers="5" config="cprefix=100mb;containers=r(1,16)" />
+    </workstage>
+  </workflow>
+</workload>
