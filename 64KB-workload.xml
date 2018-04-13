@@ -7,7 +7,7 @@
       <work type="init" workers="1" config="cprefix=64kb;containers=r(1,5)" />
     </workstage>
     <workstage name="prepare">
-      <work type="prepare" workers="640" config="cprefix=64kb;containers=r(1,5);oprefix=r;objects=r(1,256000);sizes=c(64)KB;" />
+      <work type="prepare" workers="320" config="cprefix=64kb;containers=r(1,5);oprefix=r;objects=r(1,256000);sizes=c(64)KB;" />
     </workstage>
     <!-- 100% Write -->
     <workstage name="write">
