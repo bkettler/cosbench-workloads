@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workload name="1mb" description="1mb S3 Benchmark">
-  <storage type="s3" config="accesskey=ACCESSKEY;secretkey=SECRETKEY;endpoint=http://S3URL/;path_style_access=true" />
+    <storage type="s3" config="accesskey=8C30EMT5K7GR2RC80MP2;secretkey=QsRAtiGS6bmGGLt1WKWWmdgrz+lwF3MhSi793UqJ;endpoint=http://s3test1.ciscoendpoint.testing;path_style_access=true" />
   <workflow>
-    <!-- Init Stages -->
+    <!-- Init Stages
     <workstage name="init">
       <work type="init" workers="5" config="cprefix=1mb;containers=r(1,64)" />
     </workstage>
+    -->
 
     <!-- 100% Write -->
     <workstage name="write">
-      <work name="write" workers="64">
-        <operation type="write" ratio="100" config="cprefix=1mb;containers=u(1,64);objects=s(1,12500);sizes=c(1)MB" />
+      <work name="write" workers="250" totalOps="800000" division="object">
+        <operation type="write" ratio="100" config="cprefix=1mb;containers=u(1,64);oprefix=w;objects=s(1,12500);sizes=c(1)MB" />
       </work>
     </workstage>
+    <workstage name="cleanup">
+        <work name="cleanup" type="cleanup" workers="8" config="cprefix=1mb;containers=r(1,64);oprefix=w;objects=r(1,12500)" />
+    </workstage>
+
 
     <!-- 100% Read -->
     <workstage name="read">
-      <work name="read" workers="64">
-        <operation type="read" ratio="100" config="cprefix=1mb;containers=u(1,64);objects=s(1,12500)" />
+      <work name="read" workers="250" totalOps="800000" division="object">
+        <operation type="read" ratio="100" config="cprefix=1mb;containers=u(1,64);oprefix=r;objects=s(1,12500)" />
       </work>
     </workstage>
 
     <!-- 40/60 Read/Write -->
     <workstage name="4060rw">
-      <work name="4060rw" workers="64">
-        <operation type="read" ratio="40" config="cprefix=100mb;containers=u(1,64);objects=s(1,5000)" />
-        <operation type="write" ratio="60" config="cprefix=100mb;containers=u(1,64);objects=s(5001,12500);sizes=c(1)MB" />
+      <work name="4060rw" workers="250" totalOps="800000" division="object">
+        <operation type="read" ratio="40" config="cprefix=1mb;containers=u(1,64);oprefix=r;objects=s(1,12500)" />
+        <operation type="write" ratio="60" config="cprefix=1mb;containers=u(1,64);oprefix=w;objects=s(1,12500);sizes=c(1)MB" />
       </work>
     </workstage>
-
-    <!-- Cleanup Stages-->
     <workstage name="cleanup">
-      <work name="cleanup" type="cleanup" workers="64" config="cprefix=1mb;containers=r(1,64);objects=r(1,12500)" />
+        <work name="cleanup" type="cleanup" workers="8" config="cprefix=1mb;containers=r(1,64);oprefix=w;objects=r(1,12500)" />
     </workstage>
-    <workstage name="dispose">
-      <work name="dispose" type="dispose" workers="5" config="cprefix=1mb;containers=r(1,64)" />
-    </workstage>
+
   </workflow>
 </workload>
