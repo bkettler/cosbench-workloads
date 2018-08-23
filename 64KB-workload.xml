@@ -21,13 +21,13 @@
     <!-- 100% Read -->
     <workstage name="read">
       <work name="read" workers="640" runtime="600">
-        <operation type="read" ratio="100" config="cprefix=64kb;containers=u(1,5);oprefix=r;objects=s(1,256000);hashCheck=True" />
+        <operation type="read" ratio="100" config="cprefix=64kb;containers=u(1,5);oprefix=r;objects=s(1,256000)" />
       </work>
     </workstage>
     <!-- 50/50 Read/Write -->
     <workstage name="5050rw">
       <work name="5050rw" workers="640" runtime="600">
-        <operation type="read" ratio="50" config="cprefix=64kb;containers=u(1,5);oprefix=r;objects=s(1,256000);hashCheck=True" />
+        <operation type="read" ratio="50" config="cprefix=64kb;containers=u(1,5);oprefix=r;objects=s(1,256000)" />
         <operation type="write" ratio="50" config="cprefix=64kb;containers=u(1,5);oprefix=w;objects=s(1,256000);sizes=c(64)KB" />
       </work>
     </workstage>
@@ -37,7 +37,7 @@
     <!-- 25/75 Read/Write -->
     <workstage name="2575rw">
       <work name="2575rw" workers="640" runtime="600">
-        <operation type="read" ratio="25" config="cprefix=64kb;containers=u(1,5);oprefix=r;objects=s(1,256000);hashCheck=True" />
+        <operation type="read" ratio="25" config="cprefix=64kb;containers=u(1,5);oprefix=r;objects=s(1,256000)" />
         <operation type="write" ratio="75" config="cprefix=64kb;containers=u(1,5);oprefix=w;objects=s(1,256000);sizes=c(64)KB" />
       </work>
     </workstage>
@@ -47,7 +47,7 @@
     <!-- 75/25 Read/Write -->
     <workstage name="7525rw">
       <work name="7525rw" workers="640" runtime="600">
-        <operation type="read" ratio="25" config="cprefix=64kb;containers=u(1,5);oprefix=r;objects=s(1,256000);hashCheck=True" />
+        <operation type="read" ratio="25" config="cprefix=64kb;containers=u(1,5);oprefix=r;objects=s(1,256000)" />
         <operation type="write" ratio="75" config="cprefix=64kb;containers=u(1,5);oprefix=w;objects=s(1,256000);sizes=c(64)KB" />
       </work>
     </workstage>
