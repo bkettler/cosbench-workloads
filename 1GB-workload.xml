@@ -11,7 +11,7 @@
     </workstage>
     <!-- 100% Write -->
     <workstage name="write">
-      <work name="write" workers="160" runtime="1800">
+      <work name="write" workers="160" runtime="600">
         <operation type="write" ratio="100" config="cprefix=1gb;containers=u(1,5);oprefix=w;objects=s(1,1280);sizes=c(1)GB" />
       </work>
     </workstage>
@@ -20,13 +20,13 @@
     </workstage>
     <!-- 100% Read -->
     <workstage name="read">
-      <work name="read" workers="160" runtime="1800">
+      <work name="read" workers="160" runtime="600">
         <operation type="read" ratio="100" config="cprefix=1gb;containers=u(1,5);oprefix=r;objects=s(1,1280);hashCheck=True" />
       </work>
     </workstage>
     <!-- 50/50 Read/Write -->
     <workstage name="5050rw">
-      <work name="5050rw" workers="160" runtime="1800">
+      <work name="5050rw" workers="160" runtime="600">
         <operation type="read" ratio="50" config="cprefix=1gb;containers=u(1,5);oprefix=r;objects=s(1,1280);hashCheck=True" />
         <operation type="write" ratio="50" config="cprefix=1gb;containers=u(1,5);oprefix=w;objects=s(1,1280);sizes=c(1)GB" />
       </work>
@@ -36,7 +36,7 @@
     </workstage>
     <!-- 25/75 Read/Write -->
     <workstage name="2575rw">
-      <work name="2575rw" workers="160" runtime="1800">
+      <work name="2575rw" workers="160" runtime="600">
         <operation type="read" ratio="25" config="cprefix=1gb;containers=u(1,5);oprefix=r;objects=s(1,1280);hashCheck=True" />
         <operation type="write" ratio="75" config="cprefix=1gb;containers=u(1,5);oprefix=w;objects=s(1,1280);sizes=c(1)GB" />
       </work>
@@ -46,7 +46,7 @@
     </workstage>
     <!-- 75/25 Read/Write -->
     <workstage name="7525rw">
-      <work name="7525rw" workers="160" runtime="120">
+      <work name="7525rw" workers="160" runtime="600">
         <operation type="read" ratio="25" config="cprefix=1gb;containers=u(1,5);oprefix=r;objects=s(1,1280);hashCheck=True" />
         <operation type="write" ratio="75" config="cprefix=1gb;containers=u(1,5);oprefix=w;objects=s(1,1280);sizes=c(1)GB" />
       </work>
