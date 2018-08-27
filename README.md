@@ -9,7 +9,7 @@ e.g.
 $ export COSBENCH_PATH=/root/cosbench
 ```
 
-Use the setup.py script to generate environment specific workload definitions including your S3 endpoint, secret key and access key, workers as well as calculate the parameters needed for the [clearcache](#caching) workstage.
+Use the setup.py script to generate environment specific workload definitions including your S3 endpoint, secret key, access key, workers as well as calculate the parameters needed for the [clearcache](#caching) workstage.
 
 ```
 $ ./setup.py --help
