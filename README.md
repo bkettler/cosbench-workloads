@@ -2,7 +2,7 @@ A collection of COSBench workloads.
 
 # Usage
 
-The path to your COSBench installation must be define with the COSBENCH_PATH environment variable.
+The path to your COSBench installation must be defined with the COSBENCH_PATH environment variable.
 
 e.g.
 ```
@@ -32,7 +32,7 @@ optional arguments:
   --cachesz CACHESZ    the size in KB for the cache workstage
 ```
 
-Once your workload definitions are generated the run.sh script will generate a hash value unique for each run and submit the workloads.
+Once your workload definitions are generated the run.sh script will generate a [hash](#writes) value unique for each run and submit the workloads.
 
 ```
 $ ./run.sh
