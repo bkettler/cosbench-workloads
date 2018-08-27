@@ -19,10 +19,10 @@ if __name__ == '__main__':
                         help='S3 secret key')
     parser.add_argument('--sizes', dest='sizes', type=str, required=True,
                         help='a comma seperated list of objects sizes in KB')
-    parser.add_argument('--objects', dest='objects', type=int, required=True,
-                        help='object count')
-    parser.add_argument('--buckets', dest='buckets', type=int, required=True,
-                        help='bucket count')
+    #parser.add_argument('--objects', dest='objects', type=int, required=True,
+    #                    help='object count')
+    parser.add_argument('--buckets', dest='buckets', type=int, required=False,
+                        default=1, help='bucket count')
     parser.add_argument('--workers', dest='workers', type=int, required=True,
                         help='worker count')
     parser.add_argument('--runtime', dest='runtime', type=int, required=True,
@@ -53,13 +53,19 @@ if __name__ == '__main__':
         new_workload = new_workload.replace('_S3URL_', str(args.s3url))
         new_workload = new_workload.replace('_SECRETKEY_', str(args.s3secret))
         new_workload = new_workload.replace('_ACCESSKEY_', str(args.s3access))
-        new_workload = new_workload.replace('_OBJECTS_', str(args.objects))
+        #new_workload = new_workload.replace('_OBJECTS_', str(args.objects))
         new_workload = new_workload.replace('_BUCKETS_', str(args.buckets))
         new_workload = new_workload.replace('_WORKERS_', str(args.workers))
         new_workload = new_workload.replace('_RUNTIME_', str(args.runtime))
 
+        # We will use an object count roughly equivalent to 2*cachesz/size,
+        # but it must be a multiple of workers
+        objects = int(math.ceil(float(args.cachesz)*2/size/args.workers)) * \
+                  args.workers
+        new_workload = new_workload.replace('_OBJECTS_', str(objects))
+
         # The clearcache workstage uses 100M objects so maths
-        cachesz = int(math.ceil(float(args.cachesz)/1000/100))
+        cachesz = int(math.ceil(float(args.cachesz)*2/1000/100))
         new_workload = new_workload.replace('_CACHE_', str(cachesz))
 
         output_f = '%s.xml' % '_'.join([str(size), 'kb', str(args.buckets),
