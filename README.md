@@ -14,8 +14,8 @@ Use the setup.py script to generate environment specific workload definitions in
 ```
 $ ./setup.py --help
 usage: setup.py [-h] --s3url S3URL --s3access S3ACCESS --s3secret S3SECRET
-                --sizes SIZES --workers WORKERS --runtime RUNTIME --server-ct
-                SERVER_CT --server-mem SERVER_MEM [--buckets BUCKETS]
+                --sizes SIZES --workers WORKERS --runtime RUNTIME --serverct
+                SERVERCT --servermem SERVERMEM [--buckets BUCKETS]
                 [--cachewrkrs CACHEWRKRS] [--cleanupwrkrs CLEANUPWRKRS]
                 [--preparewrkrs PREPAREWRKRS]
 
@@ -29,9 +29,8 @@ optional arguments:
   --sizes SIZES         a comma seperated list of objects sizes in KB
   --workers WORKERS     worker count
   --runtime RUNTIME     run time in seconds
-  --server-ct SERVER_CT
-                        the number of RING servers
-  --server-mem SERVER_MEM
+  --serverct SERVERCT   the number of RING servers
+  --servermem SERVERMEM
                         RAM per server in GB
   --buckets BUCKETS     bucket count, default 1
   --cachewrkrs CACHEWRKRS

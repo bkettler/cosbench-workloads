@@ -22,9 +22,9 @@ if __name__ == '__main__':
                         help='worker count')
     parser.add_argument('--runtime', dest='runtime', type=int, required=True,
                         help='run time in seconds')
-    parser.add_argument('--server-ct', dest='server_ct', type=int,
+    parser.add_argument('--serverct', dest='serverct', type=int,
                         required=True, help='the number of RING servers')
-    parser.add_argument('--server-mem', dest='server_mem', type=int,
+    parser.add_argument('--servermem', dest='servermem', type=int,
                         required=True, help='RAM per server in GB')
     parser.add_argument('--buckets', dest='buckets', type=int, required=False,
                         default=1, help='bucket count, default 1')
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     clearcache workstage uses 300 workers and an object size of 100MB. We will
     use base 10 instead of base 2 because it makes maths simpler.
     """
-    totalmem_mb = args.server_ct * args.server_mem * 1000
+    totalmem_mb = args.serverct * args.servermem * 1000
     cacheops = 2 * totalmem_mb / 100
     # The totalOps must be a factor of workers so maths
     quotient, remainder = divmod(cacheops, 300)
@@ -88,12 +88,12 @@ if __name__ == '__main__':
 
         """
         Here we will calculate the object count for all normal stages. In order
-        to reduce caching effects we will use an object division strategy in
-        all normal stages and an object count roughly equivalent to 2x total
-        memory. We will use base 10 instead of base 2 because it makes maths
-        simpler.
+        to reduce caching effects we use an object count roughly equivalent to
+        2x total memory. An object division strategy is also being used so the
+        count should be a factor of workers. We will use base 10 instead of
+        base 2 because it makes maths simpler.
         """
-        totalmem_kb = args.server_ct * args.server_mem * 1000**2
+        totalmem_kb = args.serverct * args.servermem * 1000**2
         objects = 2*totalmem_kb / float(size)
         # Make objects a factor of workers so the division strategy is clean
         quotient, remainder = divmod(objects, args.workers)
