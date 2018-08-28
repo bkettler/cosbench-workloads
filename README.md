@@ -14,22 +14,24 @@ Use the setup.py script to generate environment specific workload definitions in
 ```
 $ ./setup.py --help
 usage: setup.py [-h] --s3url S3URL --s3access S3ACCESS --s3secret S3SECRET
-                --sizes SIZES --objects OBJECTS --buckets BUCKETS --workers
-                WORKERS --runtime RUNTIME --cachesz CACHESZ
+                --sizes SIZES [--buckets BUCKETS] --workers WORKERS --runtime
+                RUNTIME --server-ct SERVER_CT --server-mem SERVER_MEM
 
 Generate COSBench workloads.
 
 optional arguments:
-  -h, --help           show this help message and exit
-  --s3url S3URL        S3 endpoint URL
-  --s3access S3ACCESS  S3 access key
-  --s3secret S3SECRET  S3 secret key
-  --sizes SIZES        a comma seperated list of objects sizes in KB
-  --objects OBJECTS    object count
-  --buckets BUCKETS    bucket count
-  --workers WORKERS    worker count
-  --runtime RUNTIME    run time in seconds
-  --cachesz CACHESZ    the size in KB for the cache workstage
+  -h, --help            show this help message and exit
+  --s3url S3URL         S3 endpoint URL
+  --s3access S3ACCESS   S3 access key
+  --s3secret S3SECRET   S3 secret key
+  --sizes SIZES         a comma seperated list of objects sizes in KB
+  --buckets BUCKETS     bucket count
+  --workers WORKERS     worker count
+  --runtime RUNTIME     run time in seconds
+  --server-ct SERVER_CT
+                        the number of RING servers
+  --server-mem SERVER_MEM
+                        RAM per server in GB
 ```
 
 Once your workload definitions are generated the run.sh script will generate a [hash](#writes) value unique for each run and submit the workloads.
@@ -46,7 +48,11 @@ There are two concerns that need to be addressed when performing read workloads:
 
 ### Caching
 
-In order to avoid inflated results as a result of cached data a special workload called 'clearcache' is executed in between each read test. The clearcache workload executes a series of writes roughly equivalent to 2x the total RING memory capacity. As an example if the RING is comprised of 6 servers with 128GB of RAM per server the clearcache workload will write 6 * 128 * 2 GB of data.
+In order to avoid inflated results as a result of data caching we are using three different strategies.
+
+1. A special work stage called 'clearcache' is executed in between each read test. The clearcache workload executes a series of writes roughly equivalent to 2x the total RING memory capacity. As an example if the RING is comprised of 6 servers with 128GB of RAM per server the clearcache workload will write 6 * 128 * 2 = 1536GB of data.
+2. The working set for all read stages is roughly equivalent to 2x the total RING memory capacity. By using a working set that is 2x the total RING memory we attempt to keep our object counts high enough and our working set large enough that it can't fit entirely in memory.
+3. We also use an object division strategy for all normal stages which partitions the work by object. This division strategy ensures each worker operates on it's own range of objects to prevent two workers from reading the same object at the same time. 
 
 ### Data Locality
 
@@ -56,16 +62,3 @@ When objects are written sequentially the probablility that the chunks end up in
 
 Deletes on the RING are asychronous meaning workloads that are run more than once may actually be overwriting existing objects vs writing new objects. In order to avoid overwriting existing objects each time a workloads is submitted a unique object prefix is used. A random 32 character hash is generated for each workload automagically by the run.sh script.
 
-```
-head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32
-```
-
-The random string is substitued for HASH in the oprefix string.
-
-e.g.
-```
-<work name="2575rw" workers="1" runtime="1800">
-  <operation type="read" ratio="25" config="cprefix=1mb-bob;containers=u(1,1);oprefix=r-HASH;objects=u(1,1280000)" />
-  <operation type="write" ratio="75" config="cprefix=1mb-bob;containers=u(1,1);oprefix=w3-HASH;objects=s(1,1280000);sizes=c(1)MB" />
-</work>
-```
