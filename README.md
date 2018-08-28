@@ -69,3 +69,23 @@ When objects are written sequentially the probablility that the chunks end up in
 
 Deletes on the RING are asychronous meaning workloads that are run more than once may actually be overwriting existing objects vs writing new objects. In order to avoid overwriting existing objects each time a workloads is submitted a unique object prefix is used. A random 32 character hash is generated for each workload automagically by the run.sh script.
 
+# Examples
+
+In the following example we have a RING with 6 servers and each server has 128 GB of RAM. We are executing tests for 512KB, 1MB, 10MB, and 100MB.
+
+```
+$ export COSBENCH_PATH=/root/cosbench
+$ ./setup.py --s3url http://s3.scality.lab/ --s3access 1EHMEV1FR7UOF8YF1SEA --s3secret uCuPZzFO4E9uejapOq7TDEW8xwygXKzwA/ZwTtDI --sizes 512,1024,10240,102400,1048576 --workers 300 --runtime 300 --server-ct 6 --server-mem 128
+Generated workloads/512_kb_1_buckets_300_workers.xml
+Generated workloads/1024_kb_1_buckets_300_workers.xml
+Generated workloads/10240_kb_1_buckets_300_workers.xml
+Generated workloads/102400_kb_1_buckets_300_workers.xml
+Generated workloads/1048576_kb_1_buckets_300_workers.xml
+$ ./run.sh
+Accepted with ID: w1
+Accepted with ID: w2
+Accepted with ID: w3
+Accepted with ID: w4
+Accepted with ID: w5
+```
+
