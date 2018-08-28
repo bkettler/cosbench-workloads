@@ -59,14 +59,17 @@ if __name__ == '__main__':
         new_workload = new_workload.replace('_RUNTIME_', str(args.runtime))
 
         # We will use an object count roughly equivalent to 2*cachesz/size,
-        # but it must be a multiple of workers
-        objects = int(math.ceil(float(args.cachesz)*2/size/args.workers)) * \
-                  args.workers
+        objects = int(math.ceil(args.cachesz*2/size)))
         new_workload = new_workload.replace('_OBJECTS_', str(objects))
 
         # The clearcache workstage uses 100M objects so maths
-        cachesz = int(math.ceil(float(args.cachesz)*2/1000/100))
-        new_workload = new_workload.replace('_CACHE_', str(cachesz))
+        cachect = int(math.ceil(float(args.cachesz*2)/1000/100))
+        # The clearcache workstage uses 300 workers and totalOps must be a
+        # factor of workers so maths
+        cachect, remainder = divmod(args.cachesz*2/1000/100, 300)
+        if remainder:
+            cachect += 300
+        new_workload = new_workload.replace('_CACHE_', str(cachect))
 
         output_f = '%s.xml' % '_'.join([str(size), 'kb', str(args.buckets),
                                       'buckets', str(args.workers), 'workers'])

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workload name="_SIZE_ KB, _BUCKETS_ buckets, _WORKERS_ workers" description="_SIZE_ KB Scality S3 Benchmark">
-  <storage type="s3" config="accesskey=_ACCESSKEY_;secretkey=_SECRETKEY_;endpoint=http://_S3URL_/;path_style_access=true" />
+  <storage type="s3" config="accesskey=_ACCESSKEY_;secretkey=_SECRETKEY_;endpoint=_S3URL_;path_style_access=true" />
   <workflow>
 
     <!-- Init Stages -->
