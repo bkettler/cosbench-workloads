@@ -14,8 +14,10 @@ Use the setup.py script to generate environment specific workload definitions in
 ```
 $ ./setup.py --help
 usage: setup.py [-h] --s3url S3URL --s3access S3ACCESS --s3secret S3SECRET
-                --sizes SIZES [--buckets BUCKETS] --workers WORKERS --runtime
-                RUNTIME --server-ct SERVER_CT --server-mem SERVER_MEM
+                --sizes SIZES --workers WORKERS --runtime RUNTIME --server-ct
+                SERVER_CT --server-mem SERVER_MEM [--buckets BUCKETS]
+                [--cachewrkrs CACHEWRKRS] [--cleanupwrkrs CLEANUPWRKRS]
+                [--preparewrkrs PREPAREWRKRS]
 
 Generate COSBench workloads.
 
@@ -25,13 +27,19 @@ optional arguments:
   --s3access S3ACCESS   S3 access key
   --s3secret S3SECRET   S3 secret key
   --sizes SIZES         a comma seperated list of objects sizes in KB
-  --buckets BUCKETS     bucket count
   --workers WORKERS     worker count
   --runtime RUNTIME     run time in seconds
   --server-ct SERVER_CT
                         the number of RING servers
   --server-mem SERVER_MEM
                         RAM per server in GB
+  --buckets BUCKETS     bucket count, default 1
+  --cachewrkrs CACHEWRKRS
+                        worker count for clearcache stages, default 300
+  --cleanupwrkrs CLEANUPWRKRS
+                        worker count for cleanup stages, default 300
+  --preparewrkrs PREPAREWRKRS
+                        worker count for prepare stages, default 300
 ```
 
 Once your workload definitions are generated the run.sh script will generate a [hash](#writes) value unique for each run and submit the workloads.

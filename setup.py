@@ -18,8 +18,6 @@ if __name__ == '__main__':
                         help='S3 secret key')
     parser.add_argument('--sizes', dest='sizes', type=str, required=True,
                         help='a comma seperated list of objects sizes in KB')
-    parser.add_argument('--buckets', dest='buckets', type=int, required=False,
-                        default=1, help='bucket count')
     parser.add_argument('--workers', dest='workers', type=int, required=True,
                         help='worker count')
     parser.add_argument('--runtime', dest='runtime', type=int, required=True,
@@ -28,6 +26,17 @@ if __name__ == '__main__':
                         required=True, help='the number of RING servers')
     parser.add_argument('--server-mem', dest='server_mem', type=int,
                         required=True, help='RAM per server in GB')
+    parser.add_argument('--buckets', dest='buckets', type=int, required=False,
+                        default=1, help='bucket count, default 1')
+    parser.add_argument('--cachewrkrs', dest='cachewrkrs', type=int,
+                        required=False, default=300,
+                        help='worker count for clearcache stages, default 300')
+    parser.add_argument('--cleanupwrkrs', dest='cleanupwrkrs', type=int,
+                        required=False, default=300,
+                        help='worker count for cleanup stages, default 300')
+    parser.add_argument('--preparewrkrs', dest='preparewrkrs', type=int,
+                        required=False, default=300,
+                        help='worker count for prepare stages, default 300')
     args = parser.parse_args()
 
     # A little error checking
@@ -70,6 +79,12 @@ if __name__ == '__main__':
         new_workload = new_workload.replace('_WORKERS_', str(args.workers))
         new_workload = new_workload.replace('_RUNTIME_', str(args.runtime))
         new_workload = new_workload.replace('_CACHE_', str(cacheops))
+        new_workload = new_workload.replace('_PREPAREWRKRS_',
+                                            str(args.preparewrkrs))
+        new_workload = new_workload.replace('_CACHEWRKRS_',
+                                            str(args.cachewrkrs))
+        new_workload = new_workload.replace('_CLEANUPWRKRS_',
+                                            str(args.cleanupwrkrs))
 
         """
         Here we will calculate the object count for all normal stages. In order
