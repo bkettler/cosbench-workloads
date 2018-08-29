@@ -21,5 +21,6 @@ for workload in $(ls $WORKLOAD_DIR); do
     # The hash is unique for each run so we will cp to /tmp
     cp $WORKLOAD_DIR/$workload /tmp/$workload
     sed -i "s/_HASH_/$hash/g" /tmp/$workload
+    echo "Submitting $workload"
     $COSBENCH_PATH/cli.sh submit /tmp/$workload
 done
