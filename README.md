@@ -75,7 +75,7 @@ In the following example we have a RING with 6 servers and each server has 128 G
 
 ```
 $ export COSBENCH_PATH=/root/cosbench
-$ ./setup.py --s3url http://s3.scality.lab/ --s3access 1EHMEV1FR7UOF8YF1SEA --s3secret uCuPZzFO4E9uejapOq7TDEW8xwygXKzwA/ZwTtDI --sizes 512,1024,10240,102400,1048576 --workers 300 --runtime 300 --server-ct 6 --server-mem 128
+$ ./setup.py --s3url http://s3.scality.lab/ --s3access 1EHMEV1FR7UOF8YF1SEA --s3secret uCuPZzFO4E9uejapOq7TDEW8xwygXKzwA/ZwTtDI --sizes 512,1024,10240,102400,1048576 --workers 300 --runtime 300 --serverct 6 --servermem 128
 Generated workloads/512_kb_1_buckets_300_workers.xml
 Generated workloads/1024_kb_1_buckets_300_workers.xml
 Generated workloads/10240_kb_1_buckets_300_workers.xml
