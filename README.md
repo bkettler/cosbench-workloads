@@ -71,7 +71,7 @@ Deletes on the RING are asychronous meaning workloads that are run more than onc
 
 # Examples
 
-In the following example we have a RING with 6 servers and each server has 128 GB of RAM. We are executing tests for 512KB, 1MB, 10MB, and 100MB.
+In the following example we have a RING with 6 servers and each server has 128 GB of RAM. We are executing tests for 512KB, 1MB, 10MB, 100MB, and 1GB.
 
 ```
 $ export COSBENCH_PATH=/root/cosbench
