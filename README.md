@@ -14,10 +14,10 @@ Use the setup.py script to generate environment specific workload definitions in
 ```
 $ ./setup.py --help
 usage: setup.py [-h] --s3url S3URL --s3access S3ACCESS --s3secret S3SECRET
-                --sizes SIZES --workers WORKERS --runtime RUNTIME --serverct
+                --size SIZE --workers WORKERS --runtime RUNTIME --serverct
                 SERVERCT --servermem SERVERMEM [--buckets BUCKETS]
-                [--cachewrkrs CACHEWRKRS] [--cleanupwrkrs CLEANUPWRKRS]
-                [--preparewrkrs PREPAREWRKRS]
+                [--cachewrkrs CACHEWRKRS] [--cleanwrkrs CLEANWRKRS]
+                [--prepwrkrs PREPWRKRS]
 
 Generate COSBench workloads.
 
@@ -26,7 +26,7 @@ optional arguments:
   --s3url S3URL         S3 endpoint URL
   --s3access S3ACCESS   S3 access key
   --s3secret S3SECRET   S3 secret key
-  --sizes SIZES         a comma seperated list of objects sizes in KB
+  --size SIZE           Object size in KB
   --workers WORKERS     worker count
   --runtime RUNTIME     run time in seconds
   --serverct SERVERCT   the number of RING servers
@@ -35,9 +35,9 @@ optional arguments:
   --buckets BUCKETS     bucket count, default 1
   --cachewrkrs CACHEWRKRS
                         worker count for clearcache stages, default 300
-  --cleanupwrkrs CLEANUPWRKRS
+  --cleanwrkrs CLEANWRKRS
                         worker count for cleanup stages, default 300
-  --preparewrkrs PREPAREWRKRS
+  --prepwrkrs PREPWRKRS
                         worker count for prepare stages, default 300
 ```
 
@@ -59,7 +59,7 @@ In order to avoid inflated results as a result of data caching we are using thre
 
 1. A special work stage called 'clearcache' is executed in between each read test. The clearcache workload executes a series of writes roughly equivalent to 2x the total RING memory capacity. As an example if the RING is comprised of 6 servers with 128GB of RAM per server the clearcache workload will write 6 * 128 * 2 = 1536GB of data.
 2. The working set for all read stages is roughly equivalent to 2x the total RING memory capacity. By using a working set that is 2x the total RING memory we attempt to keep our object counts high enough and our working set large enough that it can't fit entirely in memory.
-3. We also use an object division strategy for all normal stages which partitions the work by object. This division strategy ensures each worker operates on it's own range of objects to prevent two workers from reading the same object at the same time. 
+3. We also use an object division strategy for all normal stages which partitions the work by object. This division strategy ensures each worker operates on it's own range of objects to prevent two workers from reading the same object at the same time.
 
 ### Data Locality
 
@@ -71,15 +71,39 @@ Deletes on the RING are asychronous meaning workloads that are run more than onc
 
 # Examples
 
-In the following example we have a RING with 6 servers and each server has 128 GB of RAM. We are executing tests for 512KB, 1MB, 10MB, 100MB, and 1GB.
+In the following example we have a RING with 6 servers and each server has 128 GB of RAM. We are executing tests for objects sizes 512KB, 1MB, 10MB, 100MB, and 1GB as well as 10, 50 and 300 workers.
 
 ```
 $ export COSBENCH_PATH=/root/cosbench
-$ ./setup.py --s3url http://s3.scality.lab/ --s3access 1EHMEV1FR7UOF8YF1SEA --s3secret uCuPZzFO4E9uejapOq7TDEW8xwygXKzwA/ZwTtDI --sizes 512,1024,10240,102400,1048576 --workers 300 --runtime 300 --serverct 6 --servermem 128
+$ ./setup.py \
+--s3url http://s3.scality.lab/ \
+--s3access 1EHMEV1FR7UOF8YF1SEA \
+--s3secret uCuPZzFO4E9uejapOq7TDEW8xwygXKzwA/ZwTtDI \
+--size 512 \
+--size 1024 \
+--size 10240 \
+--size 102400 \
+--size 1048576 \
+--workers 10 \
+--workers 50 \
+--workers 300 \
+--runtime 300 \
+--serverct 6 \
+--servermem 128
+Generated workloads/512_kb_1_buckets_10_workers.xml
+Generated workloads/512_kb_1_buckets_50_workers.xml
 Generated workloads/512_kb_1_buckets_300_workers.xml
+Generated workloads/1024_kb_1_buckets_10_workers.xml
+Generated workloads/1024_kb_1_buckets_50_workers.xml
 Generated workloads/1024_kb_1_buckets_300_workers.xml
+Generated workloads/10240_kb_1_buckets_10_workers.xml
+Generated workloads/10240_kb_1_buckets_50_workers.xml
 Generated workloads/10240_kb_1_buckets_300_workers.xml
+Generated workloads/102400_kb_1_buckets_10_workers.xml
+Generated workloads/102400_kb_1_buckets_50_workers.xml
 Generated workloads/102400_kb_1_buckets_300_workers.xml
+Generated workloads/1048576_kb_1_buckets_10_workers.xml
+Generated workloads/1048576_kb_1_buckets_50_workers.xml
 Generated workloads/1048576_kb_1_buckets_300_workers.xml
 $ ./run.sh
 Accepted with ID: w1
@@ -87,5 +111,14 @@ Accepted with ID: w2
 Accepted with ID: w3
 Accepted with ID: w4
 Accepted with ID: w5
+Accepted with ID: w6
+Accepted with ID: w7
+Accepted with ID: w8
+Accepted with ID: w9
+Accepted with ID: w10
+Accepted with ID: w11
+Accepted with ID: w12
+Accepted with ID: w13
+Accepted with ID: w14
+Accepted with ID: w15
 ```
-

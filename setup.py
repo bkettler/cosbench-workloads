@@ -16,10 +16,10 @@ if __name__ == '__main__':
                         help='S3 access key')
     parser.add_argument('--s3secret', dest='s3secret', type=str, required=True,
                         help='S3 secret key')
-    parser.add_argument('--sizes', dest='sizes', type=str, required=True,
-                        help='a comma seperated list of objects sizes in KB')
+    parser.add_argument('--size', dest='size', type=int, required=True,
+                        action='append', help='Object size in KB')
     parser.add_argument('--workers', dest='workers', type=int, required=True,
-                        help='worker count')
+                        action='append', help='worker count')
     parser.add_argument('--runtime', dest='runtime', type=int, required=True,
                         help='run time in seconds')
     parser.add_argument('--serverct', dest='serverct', type=int,
@@ -31,21 +31,13 @@ if __name__ == '__main__':
     parser.add_argument('--cachewrkrs', dest='cachewrkrs', type=int,
                         required=False, default=300,
                         help='worker count for clearcache stages, default 300')
-    parser.add_argument('--cleanupwrkrs', dest='cleanupwrkrs', type=int,
+    parser.add_argument('--cleanwrkrs', dest='cleanwrkrs', type=int,
                         required=False, default=300,
                         help='worker count for cleanup stages, default 300')
-    parser.add_argument('--preparewrkrs', dest='preparewrkrs', type=int,
+    parser.add_argument('--prepwrkrs', dest='prepwrkrs', type=int,
                         required=False, default=300,
                         help='worker count for prepare stages, default 300')
     args = parser.parse_args()
-
-    # A little error checking
-    try:
-        sizes = [int(s) for s in args.sizes.split(',')]
-    except ValueError as e:
-        print 'Invalid size'
-        print e
-        sys.exit(1)
 
     # Create the output dir
     output_d = 'workloads'
@@ -54,7 +46,7 @@ if __name__ == '__main__':
 
     # Read the template file
     with open('template.xml', 'r') as fh:
-        workload = fh.read()
+        wload_template = fh.read()
 
     """
     Here we will calculate the total ops for the clearcache stage. In order to
@@ -70,41 +62,40 @@ if __name__ == '__main__':
         cacheops = (quotient + 1) * 300
 
     # Build the workload files for each defined size
-    for size in sizes:
-        new_workload = workload.replace('_SIZE_', str(size))
-        new_workload = new_workload.replace('_S3URL_', str(args.s3url))
-        new_workload = new_workload.replace('_SECRETKEY_', str(args.s3secret))
-        new_workload = new_workload.replace('_ACCESSKEY_', str(args.s3access))
-        new_workload = new_workload.replace('_BUCKETS_', str(args.buckets))
-        new_workload = new_workload.replace('_WORKERS_', str(args.workers))
-        new_workload = new_workload.replace('_RUNTIME_', str(args.runtime))
-        new_workload = new_workload.replace('_CACHE_', str(cacheops))
-        new_workload = new_workload.replace('_PREPAREWRKRS_',
-                                            str(args.preparewrkrs))
-        new_workload = new_workload.replace('_CACHEWRKRS_',
-                                            str(args.cachewrkrs))
-        new_workload = new_workload.replace('_CLEANUPWRKRS_',
-                                            str(args.cleanupwrkrs))
+    for size in args.size:
+        for workers in args.workers:
+            new_wload = wload_template.replace('_SIZE_', str(size))
+            new_wload = new_wload.replace('_S3URL_', str(args.s3url))
+            new_wload = new_wload.replace('_SECRETKEY_', str(args.s3secret))
+            new_wload = new_wload.replace('_ACCESSKEY_', str(args.s3access))
+            new_wload = new_wload.replace('_BUCKETS_', str(args.buckets))
+            new_wload = new_wload.replace('_WORKERS_', str(workers))
+            new_wload = new_wload.replace('_RUNTIME_', str(args.runtime))
+            new_wload = new_wload.replace('_CACHE_', str(cacheops))
+            new_wload = new_wload.replace('_PREPWRKRS_', str(args.prepwrkrs))
+            new_wload = new_wload.replace('_CACHEWRKRS_', str(args.cachewrkrs))
+            new_wload = new_wload.replace('_CLEANWRKRS_', str(args.cleanwrkrs))
 
-        """
-        Here we will calculate the object count for all normal stages. In order
-        to reduce caching effects we use an object count roughly equivalent to
-        2x total memory. An object division strategy is also being used so the
-        count should be a factor of workers. We will use base 10 instead of
-        base 2 because it makes maths simpler.
-        """
-        totalmem_kb = args.serverct * args.servermem * 1000**2
-        objects = 2*totalmem_kb / float(size)
-        # Make objects a factor of workers so the division strategy is clean
-        quotient, remainder = divmod(objects, args.workers)
-        if remainder:
-            objects = (quotient + 1) * args.workers
-        new_workload = new_workload.replace('_OBJECTS_', str(int(objects)))
+            """
+            Here we will calculate the object count for all normal stages. In
+            order to reduce caching effects we use an object count roughly
+            equivalent to 2x total memory. An object division strategy is also
+            being used so the count should be a factor of workers. We will use
+            base 10 instead of base 2 because it makes maths simpler.
+            """
+            totalmem_kb = args.serverct * args.servermem * 1000**2
+            objects = 2*totalmem_kb / float(size)
+            # Make objects a factor of workers so division strategy is clean
+            quotient, remainder = divmod(objects, workers)
+            if remainder:
+                objects = (quotient + 1) * workers
+            new_wload = new_wload.replace('_OBJECTS_', str(int(objects)))
 
-        output_f = '%s.xml' % '_'.join([str(size), 'kb', str(args.buckets),
-                                        'buckets', str(args.workers),
-                                        'workers'])
-        output = os.path.join(output_d, output_f)
-        with open(output, 'w') as fh:
-            fh.write(new_workload)
-        print "Generated %s" % output
+            # Write the workload xml
+            output_f = '%s.xml' % '_'.join([str(size), 'kb', str(args.buckets),
+                                            'buckets', str(workers),
+                                            'workers'])
+            output = os.path.join(output_d, output_f)
+            with open(output, 'w') as fh:
+                fh.write(new_wload)
+            print "Generated %s" % output
