@@ -72,9 +72,9 @@ if __name__ == '__main__':
             new_wload = new_wload.replace('_WORKERS_', str(workers))
             new_wload = new_wload.replace('_RUNTIME_', str(args.runtime))
             new_wload = new_wload.replace('_CACHE_', str(cacheops))
-            new_wload = new_wload.replace('_PREPWRKRS_', str(args.prepwrkrs))
+            new_wload = new_wload.replace('_PREPAREWRKRS_', str(args.prepwrkrs))
             new_wload = new_wload.replace('_CACHEWRKRS_', str(args.cachewrkrs))
-            new_wload = new_wload.replace('_CLEANWRKRS_', str(args.cleanwrkrs))
+            new_wload = new_wload.replace('_CLEANUPWRKRS_', str(args.cleanwrkrs))
 
             """
             Here we will calculate the object count for all normal stages. In
