@@ -15,7 +15,7 @@
     <!-- 100% Write -->
     <workstage name="100w">
       <work name="100w" workers="_WORKERS_" runtime="_RUNTIME_" division="object">
-        <operation type="write" ratio="100" config="cprefix=_SIZE_kb-;containers=u(1,_BUCKETS_);oprefix=100w-_HASH_-;objects=s(1,_OBJECTS_);sizes=c(_SIZE_)KB" />
+        <operation type="write" ratio="100" config="cprefix=_SIZE_kb-;containers=u(1,_BUCKETS_);oprefix=100w-_HASH_-;objects=u(1,_OBJECTS_);sizes=c(_SIZE_)KB" />
       </work>
     </workstage>
     <workstage name="cleanup-100w">
@@ -26,7 +26,7 @@
     <!-- Bytes written should be a min of 2x memory -->
     <workstage name="clearcache">
       <work name="write" workers="_CACHEWRKRS_" totalOps="_CACHE_" division="object">
-        <operation type="write" ratio="100" config="cprefix=clearcache;containers=u(1,1);objects=s(1,_CACHE_);sizes=c(100)MB" />
+        <operation type="write" ratio="100" config="cprefix=clearcache;containers=u(1,1);objects=u(1,_CACHE_);sizes=c(100)MB" />
       </work>
     </workstage>
 
@@ -41,7 +41,7 @@
     <!-- Bytes written should be a min of 2x memory -->
     <workstage name="clearcache">
       <work name="write" workers="_CACHEWRKRS_" totalOps="_CACHE_" division="object">
-        <operation type="write" ratio="100" config="cprefix=clearcache;containers=u(1,1);objects=s(1,_CACHE_);sizes=c(100)MB" />
+        <operation type="write" ratio="100" config="cprefix=clearcache;containers=u(1,1);objects=u(1,_CACHE_);sizes=c(100)MB" />
       </work>
     </workstage>
 
@@ -49,7 +49,7 @@
     <workstage name="5050rw">
       <work name="5050rw" workers="_WORKERS_" runtime="_RUNTIME_" division="object">
         <operation type="read" ratio="50" config="cprefix=_SIZE_kb-;containers=u(1,_BUCKETS_);oprefix=r-_HASH_-;objects=u(1,_OBJECTS_)" />
-        <operation type="write" ratio="50" config="cprefix=_SIZE_kb-;containers=u(1,_BUCKETS_);oprefix=50w-_HASH_-;objects=s(1,_OBJECTS_);sizes=c(_SIZE_)KB" />
+        <operation type="write" ratio="50" config="cprefix=_SIZE_kb-;containers=u(1,_BUCKETS_);oprefix=50w-_HASH_-;objects=u(1,_OBJECTS_);sizes=c(_SIZE_)KB" />
       </work>
     </workstage>
     <workstage name="cleanup-5050rw">
@@ -60,7 +60,7 @@
     <!-- Bytes written should be a min of 2x memory -->
     <workstage name="clearcache">
       <work name="write" workers="_CACHEWRKRS_" totalOps="_CACHE_" division="object">
-        <operation type="write" ratio="100" config="cprefix=clearcache;containers=u(1,1);objects=s(1,_CACHE_);sizes=c(100)MB" />
+        <operation type="write" ratio="100" config="cprefix=clearcache;containers=u(1,1);objects=u(1,_CACHE_);sizes=c(100)MB" />
       </work>
     </workstage>
 
@@ -68,7 +68,7 @@
     <workstage name="2575rw">
       <work name="2575rw" workers="_WORKERS_" runtime="_RUNTIME_" division="object">
         <operation type="read" ratio="25" config="cprefix=_SIZE_kb-;containers=u(1,_BUCKETS_);oprefix=r-_HASH_-;objects=u(1,_OBJECTS_)" />
-        <operation type="write" ratio="75" config="cprefix=_SIZE_kb-;containers=u(1,_BUCKETS_);oprefix=75w-_HASH_-;objects=s(1,_OBJECTS_);sizes=c(_SIZE_)KB" />
+        <operation type="write" ratio="75" config="cprefix=_SIZE_kb-;containers=u(1,_BUCKETS_);oprefix=75w-_HASH_-;objects=u(1,_OBJECTS_);sizes=c(_SIZE_)KB" />
       </work>
     </workstage>
     <workstage name="cleanup-2575rw">
@@ -79,7 +79,7 @@
     <!-- Bytes written should be a min of 2x memory -->
     <workstage name="clearcache">
       <work name="write" workers="_CACHEWRKRS_" totalOps="_CACHE_" division="object">
-        <operation type="write" ratio="100" config="cprefix=clearcache;containers=u(1,1);objects=s(1,_CACHE_);sizes=c(100)MB" />
+        <operation type="write" ratio="100" config="cprefix=clearcache;containers=u(1,1);objects=u(1,_CACHE_);sizes=c(100)MB" />
       </work>
     </workstage>
 
@@ -87,7 +87,7 @@
     <workstage name="7525rw">
       <work name="7525rw" workers="_WORKERS_" runtime="_RUNTIME_" division="object">
         <operation type="read" ratio="75" config="cprefix=_SIZE_kb-;containers=u(1,_BUCKETS_);oprefix=r-_HASH_-;objects=u(1,_OBJECTS_)" />
-        <operation type="write" ratio="25" config="cprefix=_SIZE_kb-;containers=u(1,_BUCKETS_);oprefix=25w-_HASH_-;objects=s(1,_OBJECTS_);sizes=c(_SIZE_)KB" />
+        <operation type="write" ratio="25" config="cprefix=_SIZE_kb-;containers=u(1,_BUCKETS_);oprefix=25w-_HASH_-;objects=u(1,_OBJECTS_);sizes=c(_SIZE_)KB" />
       </work>
     </workstage>
     <workstage name="cleanup-7525rw">
